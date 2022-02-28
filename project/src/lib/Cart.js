@@ -6,7 +6,7 @@ export class Cart {
 
   add(item) {
     const itemToFind = { product: item.product };
-    
+
     if (find(this.items, itemToFind)) {
       remove(this.items, itemToFind);
     }
@@ -14,10 +14,21 @@ export class Cart {
     this.items.push(item);
   }
 
+  remove(product) {
+    remove(this.items, { product });
+  }
+
   getTotal() {
     return this.items.reduce(
       (acc, item) => acc + item.quantity * item.product.price,
       0,
     );
+  }
+
+  checkout() {
+    return {
+      total: this.getTotal(),
+      items: this.items,
+    };
   }
 }
