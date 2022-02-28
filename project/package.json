@@ -4,7 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "inspect": "node --inspect-brk=0.0.0.0",
+    "serve:coverage": "serve -p 3000 ./coverage/lcov-report/",
     "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:coverage:watch": "jest --coverage --watchAll",
+    "test:debug": "yarn inspect $(yarn bin)/jest --runInBand",
+    "test:debug:watch": "yarn inspect $(yarn bin)/jest --watchAll --no-cache --runInBand",
     "test:watch": "jest --watchAll"
   },
   "devDependencies": {
@@ -13,7 +19,8 @@
     "@types/jest": "27.4.1",
     "babel-jest": "^27.5.1",
     "jest": "27.5.1",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "serve": "^13.0.2"
   },
   "dependencies": {
     "dinero.js": "^1.9.1",
