@@ -10,10 +10,12 @@ const calculatePercentageDiscount = (amount, item) =>
     ? amount.percentage(item.condition.percentage)
     : Money({ amount: 0 });
 
-const calculateQuantityDiscount = (amount, item) =>
-  item.condition?.quantity && item.quantity > item.condition.quantity
-    ? amount.percentage(50)
+const calculateQuantityDiscount = (amount, item) => {
+  const isEven = item.quantity % 2 === 0;
+  return item.condition?.quantity && item.quantity > item.condition.quantity
+    ? amount.percentage(isEven ? 50 : 40)
     : Money({ amount: 0 });
+};
 
 export default class Cart {
   items = [];
