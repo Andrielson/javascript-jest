@@ -7,6 +7,9 @@ services:
     environment:
       YARN_CACHE_FOLDER: /var/cache/yarn
     image: node:12-alpine
+    ports:
+      - "3000:3000" 
+      - "9229:9229"
     user: "1000:1000"
     volumes:
       - type: volume
