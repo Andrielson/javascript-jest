@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  node:
+    command: tail -f /etc/os-release
+    container_name: vedovelli_javascript_jest
+    environment:
+      YARN_CACHE_FOLDER: /var/cache/yarn
+    hostname: vedovelli
+    image: node:12-alpine
+    user: "1000:1000"
+    volumes:
+      - type: volume
+        source: yarn_cache
+        target: /var/cache/yarn
+      - type: bind
+        source: ./project
+        target: /usr/local/src/
+    working_dir: /usr/local/src/
+
+volumes:
+  yarn_cache:
+    external: true
+    name: yarn_cache_node12
