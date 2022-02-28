@@ -3,10 +3,9 @@ version: '2'
 services:
   node:
     command: tail -f /etc/os-release
-    container_name: vedovelli_javascript_jest
+    container_name: javascript_jest
     environment:
       YARN_CACHE_FOLDER: /var/cache/yarn
-    hostname: vedovelli
     image: node:12-alpine
     user: "1000:1000"
     volumes:
