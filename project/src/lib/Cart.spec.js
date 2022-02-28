@@ -18,7 +18,7 @@ describe('Cart', () => {
 
   describe('getTotal()', () => {
     it('should return 0 when getTotal() is executed in a newly created instance', () => {
-      expect(cart.getTotal()).toBe(0);
+      expect(cart.getTotal().getAmount()).toBe(0);
     });
 
     it('should multiply quantity and price and receive the total amount', () => {
@@ -29,7 +29,7 @@ describe('Cart', () => {
 
       cart.add(item);
 
-      expect(cart.getTotal()).toBe(70776);
+      expect(cart.getTotal().getAmount()).toBe(70776);
     });
 
     it('should ensure no more than one product exists at a time', () => {
@@ -43,7 +43,7 @@ describe('Cart', () => {
         quantity: 1,
       });
 
-      expect(cart.getTotal()).toBe(35388);
+      expect(cart.getTotal().getAmount()).toBe(35388);
     });
 
     it('should update total when a product gets included and then removed', () => {
@@ -59,25 +59,25 @@ describe('Cart', () => {
 
       cart.remove(product);
 
-      expect(cart.getTotal()).toBe(41872);
+      expect(cart.getTotal().getAmount()).toBe(41872);
     });
   });
 
   describe('summary()', () => {
     it('should return an object with the total and the list of items', () => {
-        cart.add({
-          product,
-          quantity: 2,
-        });
-  
-        cart.add({
-          product: product2,
-          quantity: 3,
-        });
-  
-        expect(cart.summary()).toMatchSnapshot();
-        expect(cart.getTotal()).toBeGreaterThan(0);
+      cart.add({
+        product,
+        quantity: 2,
       });
+
+      cart.add({
+        product: product2,
+        quantity: 3,
+      });
+
+      expect(cart.summary()).toMatchSnapshot();
+      expect(cart.getTotal().getAmount()).toBeGreaterThan(0);
+    });
   });
 
   describe('checkout()', () => {
@@ -96,15 +96,14 @@ describe('Cart', () => {
     });
 
     it('should reset the cart when checkout is called', () => {
-          
-        cart.add({
-          product: product2,
-          quantity: 3,
-        });
-
-        cart.checkout();
-  
-        expect(cart.getTotal()).toBe(0);
+      cart.add({
+        product: product2,
+        quantity: 3,
       });
+
+      cart.checkout();
+
+      expect(cart.getTotal().getAmount()).toBe(0);
+    });
   });
 });
