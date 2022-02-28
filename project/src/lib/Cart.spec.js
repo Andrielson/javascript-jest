@@ -222,5 +222,19 @@ describe('Cart', () => {
 
       expect(cart.getTotal().getAmount()).toBe(35388);
     });
+
+    it('should not apply discount when condition is unknown', () => {
+      const condition = {
+        discount: 10,
+      };
+
+      cart.add({
+        product,
+        condition,
+        quantity: 1,
+      });
+
+      expect(cart.getTotal().getAmount()).toBe(35388);
+    });
   });
 });
