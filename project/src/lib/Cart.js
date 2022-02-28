@@ -5,6 +5,16 @@ import Money from 'dinero.js';
 Money.defaultCurrency = 'BRL';
 Money.defaultPrecision = 2;
 
+const calculatePercentageDiscount = (amount, item) =>
+  item.condition?.percentage && item.quantity > item.condition.minimum
+    ? amount.percentage(item.condition.percentage)
+    : Money({ amount: 0 });
+
+const calculateQuantityDiscount = (amount, item) =>
+  item.condition?.quantity && item.quantity > item.condition.quantity
+    ? amount.percentage(50)
+    : Money({ amount: 0 });
+
 export default class Cart {
   items = [];
 
@@ -23,11 +33,14 @@ export default class Cart {
   }
 
   getTotal() {
-    return this.items.reduce(
-      (acc, item) =>
-        acc.add(Money({ amount: item.quantity * item.product.price })),
-      Money({ amount: 0 }),
-    );
+    return this.items.reduce((acc, item) => {
+      const amount = Money({ amount: item.quantity * item.product.price });
+      const discount = item.condition?.quantity
+        ? calculateQuantityDiscount(amount, item)
+        : calculatePercentageDiscount(amount, item);
+
+      return acc.add(amount).subtract(discount);
+    }, Money({ amount: 0 }));
   }
 
   summary() {
