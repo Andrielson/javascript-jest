@@ -25,10 +25,18 @@ export class Cart {
     );
   }
 
+  summary() {
+    const total = this.getTotal();
+    const items = this.items;
+
+    return { total, items };
+  }
+
   checkout() {
-    return {
-      total: this.getTotal(),
-      items: this.items,
-    };
+    const { total, items } = this.summary();
+
+    this.items = [];
+
+    return { total, items };
   }
 }
