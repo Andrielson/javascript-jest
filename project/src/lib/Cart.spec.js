@@ -1,4 +1,4 @@
-import { Cart } from './Cart';
+import Cart from './Cart';
 
 describe('Cart', () => {
   let cart;

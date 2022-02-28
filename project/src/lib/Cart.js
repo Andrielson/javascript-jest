@@ -1,7 +1,7 @@
 import find from 'lodash/find';
 import remove from 'lodash/remove';
 
-export class Cart {
+export default class Cart {
   items = [];
 
   add(item) {
