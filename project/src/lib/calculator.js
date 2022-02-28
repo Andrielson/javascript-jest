@@ -1,4 +1,4 @@
-module.exports.sum = (arg1, arg2) => {
+export function sum(arg1, arg2) {
   const int1 = parseInt(arg1);
   const int2 = parseInt(arg2);
 
@@ -6,4 +6,4 @@ module.exports.sum = (arg1, arg2) => {
     throw new Error('Please check your input');
 
   return int1 + int2;
-};
+}
