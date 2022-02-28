@@ -17,6 +17,27 @@ const calculateQuantityDiscount = (amount, item) => {
     : Money({ amount: 0 });
 };
 
+const calculateDiscount = (amount, quantity, condition) => {
+  const list = Array.isArray(condition) ? condition : [condition];
+
+  return list
+    .map(c => {
+      if (c.percentage)
+        return calculatePercentageDiscount(amount, {
+          condition: c,
+          quantity,
+        });
+      if (c.quantity)
+        return calculateQuantityDiscount(amount, {
+          condition: c,
+          quantity,
+        });
+      return Money({ amount: 0 });
+    })
+    .sort((a, b) => b.getAmount() - a.getAmount())
+    .shift();
+};
+
 export default class Cart {
   items = [];
 
@@ -37,9 +58,9 @@ export default class Cart {
   getTotal() {
     return this.items.reduce((acc, item) => {
       const amount = Money({ amount: item.quantity * item.product.price });
-      const discount = item.condition?.quantity
-        ? calculateQuantityDiscount(amount, item)
-        : calculatePercentageDiscount(amount, item);
+      const discount = item.condition
+        ? calculateDiscount(amount, item.quantity, item.condition)
+        : Money({ amount: 0 });
 
       return acc.add(amount).subtract(discount);
     }, Money({ amount: 0 }));

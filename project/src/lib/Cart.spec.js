@@ -143,7 +143,7 @@ describe('Cart', () => {
 
     it('should apply quantity discount for even quantities', () => {
       const condition = {
-        quantity: 2
+        quantity: 2,
       };
 
       cart.add({ product, condition, quantity: 4 });
@@ -153,7 +153,7 @@ describe('Cart', () => {
 
     it('should apply quantity discount for odd quantities', () => {
       const condition = {
-        quantity: 2
+        quantity: 2,
       };
 
       cart.add({ product, condition, quantity: 5 });
@@ -163,12 +163,31 @@ describe('Cart', () => {
 
     it('should not apply quantity discount when quantity is below minimum', () => {
       const condition = {
-        quantity: 2
+        quantity: 2,
       };
 
       cart.add({ product, condition, quantity: 1 });
 
       expect(cart.getTotal().getAmount()).toBe(35388);
+    });
+
+    it('should receive two or more conditions and determine/apply the best discount. First case.', () => {
+      const percentageCondition = {
+        percentage: 30,
+        minimum: 2,
+      };
+
+      const quantityCondition = {
+        quantity: 2,
+      };
+
+      cart.add({
+        product,
+        condition: [percentageCondition, quantityCondition],
+        quantity: 5,
+      });
+
+      expect(cart.getTotal().getAmount()).toBe(106164);
     });
   });
 });
